@@ -41,7 +41,7 @@ INFO:     Application startup complete.
 </div>
 
 <details markdown="1">
-<summary>About the command <code>uvicorn main:app --reload</code>...</summary>
+<summary>About the command <code>uvicorn app.main:app --reload</code>...</summary>
 
 The command `uvicorn main:app` refers to:
 
