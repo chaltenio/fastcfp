@@ -1,0 +1,140 @@
+{
+	"info": {
+		"_postman_id": "e2e73816-0994-434f-9969-09a0a21c287a",
+		"name": "talks_fastApi",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get Talks",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/talks",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"talks"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Talk",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"title\": \"top beaches in Florida\",\r\n    \"content\": \"check out these awesome beaches\",\r\n    \"published\": false,\r\n    \"rating\": 5\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/talks",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"talks"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get a Talk",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/talks/{id}",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"talks",
+						"{id}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Talk",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/talks/{id}",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"talks",
+						"{id}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update a Talk",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"title\": \"updated top beaches in Florida 1\",\r\n    \"content\": \"updated check out these awesome beaches 1\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/talks/1",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"talks",
+						"1"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
