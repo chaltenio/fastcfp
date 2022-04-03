@@ -66,3 +66,12 @@ And now, go to <a href="http://127.0.0.1:8000/redoc" class="external-link" targe
 You will see the alternative automatic documentation (provided by <a href="https://github.com/Rebilly/ReDoc" class="external-link" target="_blank">ReDoc</a>):
 
 ![ReDoc](https://fastapi.tiangolo.com/img/index/index-02-redoc-simple.png)
+
+### Notes
+
+
+```console
+$ venv\Scripts\python.exe -m pip install --upgrade pip
+
+$ pip install psycopg2
+```
