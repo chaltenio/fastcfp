@@ -76,12 +76,12 @@ def get_talks():
 
 @app.post("/talks", status_code=status.HTTP_201_CREATED)
 def create_posts(talk: Talk):
-    cursor.execute("""INSERT INTO talks (title, user_id) VALUES (%s, %s) RETURNING * """, (talk.title, talk.user_id))
+    cursor.execute("""INSERT INTO talks (title, description, abstract, type_id, topics, tags, level, comments, link_slides, link_video, desired, sponsor, rating_commite, favorite_commite, selected_commite, comments_commite, user_id, published) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) RETURNING * """, 
+                                        (talk.title, talk.description, talk.abstract, talk.type_id, talk.topics, talk.tags, talk.level, talk.comments, talk.link_slides, talk.link_video, bool(talk.desired), bool(talk.sponsor), talk.rating_commite, bool(talk.favorite_commite), bool(talk.selected_commite), talk.comments_commite, talk.user_id, bool(talk.published)))
+
     new_talk = cursor.fetchone()
     conn.commit()
-
     return {"data": new_talk}
-
 
 @app.get("/talks/{id}")
 def get_talk(id: int, response: Response):
