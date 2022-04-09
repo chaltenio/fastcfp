@@ -66,15 +66,22 @@ def find_index_talk(id):
 async def root():
     return {"message": "Hello World"}
 
+## @desc    Get talks
+## @route   GET /api/v1/talks
+## @access  Public
 
-@app.get("/talks")
+@app.get("/api/v1/talks")
 def get_talks():
     cursor.execute("""SELECT * FROM public.talks ORDER BY id ASC""")
     talks = cursor.fetchall()
     return {"data": talks}
 
 
-@app.post("/talks", status_code=status.HTTP_201_CREATED)
+# @desc    Add talk
+# @route   POST /api/v1/talks/:bootcampId/courses
+# @access  Private
+
+@app.post("/api/v1/talks", status_code=status.HTTP_201_CREATED)
 def create_posts(talk: Talk):
     cursor.execute("""INSERT INTO talks (title, description, abstract, type_id, topics, tags, level, comments, link_slides, link_video, desired, sponsor, rating_commite, favorite_commite, selected_commite, comments_commite, user_id, published) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) RETURNING * """, 
                                         (talk.title, talk.description, talk.abstract, talk.type_id, talk.topics, talk.tags, talk.level, talk.comments, talk.link_slides, talk.link_video, bool(talk.desired), bool(talk.sponsor), talk.rating_commite, bool(talk.favorite_commite), bool(talk.selected_commite), talk.comments_commite, talk.user_id, bool(talk.published)))
@@ -82,6 +89,7 @@ def create_posts(talk: Talk):
     new_talk = cursor.fetchone()
     conn.commit()
     return {"data": new_talk}
+
 
 @app.get("/talks/{id}")
 def get_talk(id: int, response: Response):
