@@ -69,15 +69,22 @@ def find_index_talk(id):
 async def root():
     return {"message": "Hello World"}
 
+## @desc    Get talks
+## @route   GET /api/v1/talks
+## @access  Public
 
-@app.get("/talks")
+@app.get("/api/v1/talks")
 def get_talks():
     cursor.execute("""SELECT * FROM public.talks ORDER BY id ASC""")
     talks = cursor.fetchall()
     return {"data": talks}
 
 
-@app.post("/talks", status_code=status.HTTP_201_CREATED)
+# @desc    Add talk
+# @route   POST /api/v1/talks/:bootcampId/courses
+# @access  Private
+
+@app.post("/api/v1/talks", status_code=status.HTTP_201_CREATED)
 def create_posts(talk: Talk):
     cursor.execute("""INSERT INTO talks (title, description, abstract, type_id, topics, tags, level, comments, 
     link_slides, link_video, desired, sponsor, rating_committee, favorite_committee, selected_committee, 
