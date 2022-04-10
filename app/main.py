@@ -9,14 +9,14 @@ from psycopg2.extras import RealDictCursor
 import time
 from .config import settings
 
-
 app = FastAPI()
+
 
 class Talk(BaseModel):
     title: str
     description: str
     abstract: Optional[str] = None
-    type_id: Optional[int] = None    
+    type_id: Optional[int] = None
     topics: Optional[str] = None
     tags: Optional[str] = None
     level: Optional[str] = None
@@ -25,19 +25,22 @@ class Talk(BaseModel):
     link_video: Optional[str] = None
     desired: Optional[bool] = False
     sponsor: Optional[bool] = False
-    rating_commite: Optional[int] = None
-    favorite_commite: Optional[bool] = False
-    selected_commite: Optional[bool] = False
-    comments_commite: Optional[str] = None   
+    rating_committee: Optional[int] = None
+    favorite_committee: Optional[bool] = False
+    selected_committee: Optional[bool] = False
+    comments_committee: Optional[str] = None
     user_id: int
     published: Optional[bool] = False
     created_at: Optional[datetime]
     updated_at: Optional[datetime]
 
+
 while True:
 
     try:
-        conn = psycopg2.connect(host=settings.DATABASE_HOST, port=settings.DATABASE_PORT, database=settings.DATABASE_NAME, user=settings.DATABASE_USERNAME, password=settings.DATABASE_PASSWORD, cursor_factory=RealDictCursor)
+        conn = psycopg2.connect(host=settings.DATABASE_HOST, port=settings.DATABASE_PORT,
+                                database=settings.DATABASE_NAME, user=settings.DATABASE_USERNAME,
+                                password=settings.DATABASE_PASSWORD, cursor_factory=RealDictCursor)
         cursor = conn.cursor()
         print("Database connection was succesfull!")
         break
@@ -45,9 +48,9 @@ while True:
         print("Connecting to database failure")
         print("Error: ", error)
         time.sleep(3)
-    
 
-my_talks = [{"title": "title of talk 1", "content": "content of talk 1", "id": 1} , {"title": "title of talk 2", "content": "content of talk 2", "id": 2}]
+my_talks = [{"title": "title of talk 1", "content": "content of talk 1", "id": 1},
+            {"title": "title of talk 2", "content": "content of talk 2", "id": 2}]
 
 
 def find_talk(id):
@@ -76,16 +79,22 @@ def get_talks():
 
 @app.post("/talks", status_code=status.HTTP_201_CREATED)
 def create_posts(talk: Talk):
-    cursor.execute("""INSERT INTO talks (title, description, abstract, type_id, topics, tags, level, comments, link_slides, link_video, desired, sponsor, rating_commite, favorite_commite, selected_commite, comments_commite, user_id, published) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) RETURNING * """, 
-                                        (talk.title, talk.description, talk.abstract, talk.type_id, talk.topics, talk.tags, talk.level, talk.comments, talk.link_slides, talk.link_video, bool(talk.desired), bool(talk.sponsor), talk.rating_commite, bool(talk.favorite_commite), bool(talk.selected_commite), talk.comments_commite, talk.user_id, bool(talk.published)))
+    cursor.execute("""INSERT INTO talks (title, description, abstract, type_id, topics, tags, level, comments, 
+    link_slides, link_video, desired, sponsor, rating_committee, favorite_committee, selected_committee, 
+    comments_committee, user_id, published) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, 
+    %s, %s) RETURNING * """,
+                   (talk.title, talk.description, talk.abstract, talk.type_id, talk.topics, talk.tags, talk.level,
+                    talk.comments, talk.link_slides, talk.link_video, bool(talk.desired), bool(talk.sponsor),
+                    talk.rating_committee, bool(talk.favorite_committee), bool(talk.selected_committee),
+                    talk.comments_committee, talk.user_id, bool(talk.published)))
 
     new_talk = cursor.fetchone()
     conn.commit()
     return {"data": new_talk}
 
+
 @app.get("/talks/{id}")
 def get_talk(id: int, response: Response):
-
     talk = find_talk(id)
     if not talk:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
@@ -95,7 +104,6 @@ def get_talk(id: int, response: Response):
 
 @app.delete("/talks/{id}", status_code=status.HTTP_204_NO_CONTENT)
 def delete_talk(id: int):
-
     index = find_index_talk(id)
 
     if index == None:
@@ -118,5 +126,3 @@ def update_talks(id: int, talk: Talk):
     talk_dict['id'] = id
     my_talks[index] = talk_dict
     return {"data": talk_dict}
-
-
